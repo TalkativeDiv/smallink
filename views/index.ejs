@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Shortener</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js" defer></script>
+</head>
+<body>
+  
+   
+    <div class="container my-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="fs-4 fw-bold">Smallink</p>
+           <button class="btn btn-secondary" id="themeToggler">Theme Toggler</button>
+        </div>
+        <form action="/shortUrls" method="post" class="row my-4 d-flex flex-row align-items-center flex-wrap">
+             <div class="col"><label for="fullUrl" class="visually-hidden">URL</label><input type="text" name="fullUrl" id="fullUrl" placeholder="URL" class="form-control mr-2"></div>
+      
+               <div class="col-auto"> <button type="submit" class="btn btn-success">Shrink!</button></div>
+
+        </form>
+        <hr class="text-secondary">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Full URL</th>
+                        <th>Short URL</th>
+                        <th>Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% shortUrls.forEach(shortUrl => { %>
+                        <tr>
+                            <td><a href="<%= shortUrl.full %>"><%= shortUrl.full %></a></td>
+                            <td><a href="<%= shortUrl.short %>"><%= shortUrl.short %></a></td>
+                            <td><%= shortUrl.clicks %></td>
+                        </tr>
+                
+            <%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        // Theme Toggler
+        // Parts copied from https://getbootstrap.com's theme toggler
+        const themeToggler = document.getElementById("themeToggler")
+        const getStoredTheme = () => localStorage.getItem('theme')
+        const setStoredTheme = theme => localStorage.setItem('theme', theme)  
+        const getPreferredTheme = () => {
+            const storedTheme = getStoredTheme()
+            if (storedTheme) {
+                return storedTheme
+            }
+
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }     
+        const setTheme = theme => {
+            if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+        }
+        let currentTheme = getPreferredTheme() 
+        setTheme(currentTheme)
+
+        themeToggler.addEventListener("click", () => {
+            if (currentTheme === 'dark') {
+                currentTheme = 'light'
+            } else {
+                currentTheme = 'dark'
+            }
+            setStoredTheme(currentTheme)
+            setTheme(currentTheme)
+        })
+</script>
+</body>
+</html>

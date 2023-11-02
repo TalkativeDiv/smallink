@@ -1,0 +1,22 @@
+{
+  "name": "smallink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "nanoid": "^3.3.6",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  }
+}
